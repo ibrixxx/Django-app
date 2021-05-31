@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: whitesmoke;
+  }
+  
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+}
+  
+#main {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+
+#mylogo {
+  height: 7vmin;
+  margin-bottom: 3vmin;
+}
+
+
+.myinfo {
+  height: 8vmin;
+  font-size: small;
+  color: wheat;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.Active {
+  border: solid mediumseagreen;
+  border-radius: 2vmin;
+  float: right;
+}
+
+.Vacation {
+  border: solid dodgerblue;
+  border-radius: 2vmin;
+  float: right;
+}
+
+.Busy {
+  border: solid orangered;
+  border-radius: 2vmin;
+  float: right;
+}
+.prof {
+  float: right;
+  right: 0;
+  margin-left: 70%;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #282c34;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+/* Style page content */
+.main {
+  margin-left: 160px; /* Same as the width of the sidebar */
+}
+
+#appName {
+  float: left;
+  margin-left: 2vmin;
+  font-style: oblique;
+  font-weight: bolder;
+}
+
+.myNav {
+  align-items: baseline;
+  background-color: #333333;
+  font-family: Padauk;
+  color: whitesmoke;
+}
+
+#link-1:hover {
+  color: whitesmoke;
+}
+
+.cards {
+  display: inline-block;
+  float: none;
+}
+
+.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+  background-color: whitesmoke;
+}
+
+.myRecords {
+  display: flex;
+  flex-flow: wrap;
+  margin-left: 9%;
+  margin-bottom: 2vmin;
+}
+
+.myPhoto:hover {
+  background-color: dodgerblue;
+}
