@@ -8,12 +8,19 @@ import AdminHomework from "./views/AdminHomework";
 import ClassesView from "./views/ClassesView";
 import UsersView from "./views/UsersView"
 import SettingsView from "./views/SettingsView";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Forgotten from "./views/Forgotten";
+import Prop from "./components/Prop";
 
 
 function App() {
     return (
         <Router>
             <Switch>
+                <Route path='/login'><div className="App"><Login /></div></Route>
+                <Route path='/register'><div className="App"><Register /></div></Route>
+                <Route path='/lost_password'><div className="App"><Forgotten /></div></Route>
                 <Route path='/home'><div className="App"><Sidenav admin={true}/> <HomeView /></div></Route>
                 <Route path='/lectures'><div className="App"><Sidenav admin={true}/><RecordView /></div></Route>
                 <Route path='/homework'><div className="App"><Sidenav admin={true}/> <AdminHomework /></div></Route>

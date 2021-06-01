@@ -8,5 +8,8 @@ urlpatterns = [
     path('homework', index),
     path('classes', index),
     path('settings', index),
-    path('users', index)
+    path('users', index),
+    path('lost_password', index),
+    path('login', index),
+    path('register', index)
 ]

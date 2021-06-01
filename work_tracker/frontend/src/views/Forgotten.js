@@ -5,7 +5,7 @@ function Forgotten(){
     const [exs, setExs] = useState(true);
 
     return (
-        <div className={"text-center"}>
+        <div className={"text-center App-header"}>
             <img src={logo} className="App-logo" alt="logo" />
             <main className={"form-signin"}>
                 <h3 className={"mb-3 fw-normal"}>New password will be sent to this email</h3>
