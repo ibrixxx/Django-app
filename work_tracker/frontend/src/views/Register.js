@@ -1,9 +1,66 @@
 import React, {useState} from 'react';
 import logo from "../../static/images/logo.svg";
 import {Form, FormGroup} from "react-bootstrap";
+import axios from 'axios';
 
 function Register(){
     const [exs, setExs] = useState(true);
+
+    function createNewUser(event) {
+        const formData = new FormData(event.target);
+        event.preventDefault();
+        let name, username, email, psw, psw2, type;
+        for (let [key, value] of formData.entries()) {
+            switch(key.toString()){
+                case "inputName":
+                    name = value;
+                    break;
+                case "inputNick":
+                    username = value;
+                    break;
+                case "inputEmail":
+                    email = value
+                    break;
+                case "pswrd":
+                    psw = value;
+                    break;
+                case "pswrd2":
+                    psw2 = value;
+                    break;
+                case "typeValue":
+                    type = value;
+                    break;
+            }
+        }
+        /*const requestOptions = {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: username,
+                name: name,
+                email: email,
+                password: psw,
+                type: type,
+            }),
+        };
+        fetch("/api/register/new_user", requestOptions).then((response) =>
+            response.json()
+        );*/
+        axios.post('http://127.0.0.1:8000/api/register/new_user', {
+                username: username,
+                name: name,
+                email: email,
+                password: psw,
+                type: type,
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        console.log(username, email, psw2, psw, name, type);
+    }
 
     return (
         <div className={"App-header"}>
@@ -14,7 +71,7 @@ function Register(){
                     <div hidden={exs} className={"alert alert-primary myinfo"} role={"alert"}>
                         <p>User already exsists!</p>
                     </div>
-                    <form>
+                    <form onSubmit={createNewUser}>
                         <input type={"text"} name={"inputName"} id={"inputName"}
                                className={"form-control"} placeholder={"Full name"} required autoFocus/>
                         <input type={"text"} name={"inputNick"} id={"inputName"}
@@ -26,10 +83,10 @@ function Register(){
                         <input type={"password"} name={"pswrd2"} id={"inputConPassword"}
                                className={"form-control"} placeholder={"Confirm Password"} required/>
                         <Form.Control as="select" className="form-select" name={"typeValue"} custom>
-                            <option>Professor</option>
-                            <option>Assistant</option>
+                            <option value={"Professor"}>Professor</option>
+                            <option value={"Assistant"}>Assistant</option>
                         </Form.Control>
-                        <button className={"w-100 btn btn-lg btn-primary"} type={"submit"} onClick={() => {setExs(false)}}>Log in</button>
+                        <button className={"w-100 btn btn-lg btn-primary"} type={"submit"}>Register</button>
                     </form>
                 </main>
                 <p className={"mt-5 mb-3 text-muted"}>&copy; Ibrahim Mešan, 2021</p>
