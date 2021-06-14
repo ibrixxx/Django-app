@@ -46,19 +46,24 @@ function Register(){
         fetch("/api/register/new_user", requestOptions).then((response) =>
             response.json()
         );*/
-        axios.post('http://127.0.0.1:8000/api/register/new_user', {
-                username: username,
-                name: name,
-                email: email,
-                password: psw,
-                type: type,
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        if(username == 'admin' || username == 'Admin')
+            setExs(true);
+        else
+            axios.post('http://127.0.0.1:8000/api/register/new_user', {
+                    username: username,
+                    name: name,
+                    email: email,
+                    password: psw,
+                    type: type,
+            })
+            .then(function (response) {
+                console.log('response: ', response);
+                window.location = "/login";
+            })
+            .catch(function (error) {
+                console.log('error: ',error);
+                setExs(true);
+            });
         console.log(username, email, psw2, psw, name, type);
     }
 
