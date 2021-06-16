@@ -1,10 +1,12 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
-from rest_framework import generics, serializers, status
+from rest_framework import generics, status
 from .serializer import CreateNewUser, UserSerializer
 from .models import User, Classes, Homework, Records
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.views import Response
+from django.core import serializers
  
 class ProfileView(generics.CreateAPIView):
     queryset = User.objects.all
@@ -48,15 +50,27 @@ def check_login(request):
 
 
 @api_view(["GET"])
-def load_home(request):
-    username = request.GET.get('username')
+def load_classes(request, username):
     user = User.objects.filter(username = username)
     classes = None
-    if user.type == "Professor":
-        classes = Classes.objects.filter(class_prof = user[0])
+    if user.exists:
+        if user[0].type == "Professor":
+            classes = Classes.objects.filter(class_prof = user[0])
+        else:
+            classes = Classes.objects.filter(class_asist = user[0])
     else:
-        classes = Classes.objects.filter(class_asist = user[0])
-    homework = Homework.objects.filter(class_name = user[0])
-    data = serializers.serialize('json', [classes, homework])
+        return Response(status=status.status.HTTP_404_NOT_FOUND)
+    data = serializers.serialize('json', classes)
+    return HttpResponse(data,status=status.HTTP_202_ACCEPTED)
 
-    return Response(data, status=status.HTTP_302_FOUND)
+
+@api_view(["GET"])
+def load_home(request, username):
+    user = User.objects.filter(username = username)
+    if user.exists:
+        homework = Homework.objects.filter(class_name = user[0])
+    else:
+        return Response(status=status.status.HTTP_404_NOT_FOUND)
+    
+    data = serializers.serialize('json', homework)
+    return HttpResponse(data,status=status.HTTP_202_ACCEPTED)

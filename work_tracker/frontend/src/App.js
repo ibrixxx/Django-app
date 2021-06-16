@@ -22,7 +22,7 @@ function App() {
                 <Route path='/login'><div className="App"><Login /></div></Route>
                 <Route path='/register'><div className="App"><Register /></div></Route>
                 <Route path='/lost_password'><div className="App"><Forgotten /></div></Route>
-                <Route path='/home/:username'><div className="App"><Sidenav admin={false}/> <HomeView /></div></Route>
+                <Route path='/home/:username'><div className="App"><Sidenav admin={false}/> <div id={'root'}><HomeView /></div></div></Route>
                 <Route path='/lectures/:username'><div className="App"><Sidenav admin={false}/><RecordView /></div></Route>
                 <Route path='/homework/:username'><div className="App"><Sidenav admin={false}/> <HomeworkView /></div></Route>
                 <Route path='/classes/:username'><div className="App"><Sidenav admin={false}/> <ClassesView /></div></Route>

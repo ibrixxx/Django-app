@@ -23,7 +23,7 @@ const CardContainer = styled.div`
     padding: 2px 16px;
   `
 
-export default function MyCard({user, stats}){
+export default function MyCard({user, stats, data}){
 
     if(user)
         return (
@@ -39,9 +39,9 @@ export default function MyCard({user, stats}){
     return (
         <Card className={"card"}>
             <CardContainer className={"container"}>
-                <h6>Naziv predmeta</h6>
-                <h6 className={"text-info"}>termin</h6>
-                <h6 className={"text-black-50"}>Vrsta (AV, LV)</h6>
+                <h6>{data.class_name}</h6>
+                <h6 className={"text-info"}>Durration: {data.class_durr_in_hours} h</h6>
+                <h6 className={"text-black-50"}>Start: 1{data.year}:15 h</h6>
             </CardContainer>
         </Card>
     );
