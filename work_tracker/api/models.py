@@ -36,14 +36,14 @@ class Homework(models.Model):
 
 
 class Records(models.Model):
-    class_name = models.ForeignKey(Classes, related_name="recordClass", on_delete=CASCADE)
+    class_name = models.CharField(max_length=50)
     held_date = models.DateField(auto_now_add=True)
     class_type = models.CharField(max_length=50)
     week_held = models.IntegerField()
-    start = models.TimeField(auto_now_add=True)
+    start = models.TimeField(blank=True)
     end = models.TimeField(blank=True)
     participants = models.IntegerField(default=1)
-
+    added_by = models.CharField(max_length=50)
 
 
 

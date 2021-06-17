@@ -34,6 +34,8 @@ export default function HomeView() {
     .catch(function (error) {
         console.log('error: ',error);
     })
+
+    
     function getDatey() {
         let [month, datey, year] = new Date().toLocaleDateString("en-US").split("/");
         return [month, datey, year].join('/');

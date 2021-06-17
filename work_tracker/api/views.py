@@ -49,6 +49,20 @@ def check_login(request):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(["POST"])
+def add_record(request):
+    username = request.data.get('username')
+    class_id = request.data.get('class_id')
+    week = request.data.get('week')
+    type = request.data.get('type')
+    start = request.data.get('start') 
+    end = request.data.get('end')
+    participants = request.data.get('participants')
+    newRecord = Records(added_by = username, class_name = class_id, week_held = week, class_type = type, start = start, end = end, participants = participants)
+    newRecord.save()
+    return Response(True, status = status.HTTP_202_ACCEPTED)
+
+
 @api_view(["GET"])
 def load_classes(request, username):
     user = User.objects.filter(username = username)
@@ -74,3 +88,25 @@ def load_home(request, username):
     
     data = serializers.serialize('json', homework)
     return HttpResponse(data,status=status.HTTP_202_ACCEPTED)
+
+
+
+@api_view(["GET"])
+def load_records(request, username):
+    records = Records.objects.filter(added_by = username)
+    if records.exists:
+        data = serializers.serialize('json', records)
+        return HttpResponse(data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(["POST"])
+def load_filtered_records(request):
+    username = request.data.get('username') 
+    class_name = request.data.get('class_name')
+    type = request.data.get('type')
+    week = request.data.get('week')
+    records = Records.objects.filter(added_by = username).filter(class_name = class_name).filter(class_type = type).filter(week_held = week)
+    if records.exists:
+        data = serializers.serialize('json', records)
+        return HttpResponse(data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)

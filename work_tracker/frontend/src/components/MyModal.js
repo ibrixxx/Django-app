@@ -1,9 +1,41 @@
 import React from "react";
-import {Button, Form, FormGroup, Modal} from "react-bootstrap";
+import {Button, Form, FormGroup, Modal} from "react-bootstrap";;
+import axios from 'axios';
 
 export default function MyModal(props) {
 
-    if(props.admin)
+    function addNewRecord(e){
+        const formData = new FormData(e.target);
+        e.preventDefault();
+        const formDataObj = Object.fromEntries(formData.entries())
+        let class_id = formDataObj.class_id,
+         week = formDataObj.week,
+         type = formDataObj.type,
+         start = formDataObj.start,
+         end = formDataObj.end,
+         participants = formDataObj.participants;
+        console.log(props.username, class_id, week, type, start, end, participants);
+        axios.post('/api/add_record/', {
+                username: props.username,
+                class_id: class_id,
+                week: week,
+                type: type,
+                start: start, 
+                end: end, 
+                participants: participants,
+        })
+        .then(function (response) {
+            console.log('response: ', response);
+            props.onHide();
+            props.renderRecords();
+        })
+        .catch(function (error) {
+            console.log('error: ',error);
+        });
+    }
+
+    if(props.admin){
+
         return (
             <Modal
                 {...props}
@@ -16,48 +48,53 @@ export default function MyModal(props) {
                         Add a record
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Form className={"d-grid"}>
+                <Form className={"d-grid"} onSubmit={addNewRecord}>
+                    <Modal.Body>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Class:</Form.Label>
-                            <Form.Control as="select" className="form-select" custom>
-                                <option>Programiranje I</option>
-                                <option>DWS</option>
-                                <option>Android</option>
+                            <Form.Label className={"p-2 text-black-50"}>Class:</Form.Label>
+                            <Form.Control as="select" name={"class_id"} className="form-select" custom>
+                                <option>Programiranje |</option>
+                                <option>Mašinsko učenje</option>
+                                <option>Razvoj android aplikacija</option>
+                                <option>Računarske mreže</option>
+                                <option>Razvoj softvera</option>
+                                <option>Programiranje ||</option>
+                                <option>Web Programiranje |</option>                    
                             </Form.Control>
                         </FormGroup>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Date:</Form.Label>
-                            <Form.Control type="date" placeholder="Enter date" />
+                            <Form.Label className={"p-2 text-black-50"}>Week:</Form.Label>
+                            <Form.Control type="number" name={"week"} placeholder="Enter week" min={1} max={15}/>
                         </FormGroup>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Type:</Form.Label>
-                            <Form.Control as="select" className="form-select" custom>
-                                <option>Programiranje I</option>
-                                <option>DWS</option>
-                                <option>Android</option>
+                            <Form.Label className={"p-2 text-black-50"}>Type:</Form.Label>
+                            <Form.Control as="select" name={"type"} className="form-select" custom>
+                                <option>Lab</option>
+                                <option>Lecture</option>
+                                <option>Tutorial</option>
                             </Form.Control>
                         </FormGroup>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Start:</Form.Label>
-                            <Form.Control type="time"/>
+                            <Form.Label className={"p-2 text-black-50"}>Start: </Form.Label>
+                            <Form.Control type="time" name={"start"}/>
                         </FormGroup>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>End:</Form.Label>
-                            <Form.Control type="time" />
+                            <Form.Label className={"p-2 text-black-50"}>End: </Form.Label>
+                            <Form.Control type="time" name={"end"}/>
                         </FormGroup>
                         <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Participants:</Form.Label>
-                            <Form.Control type="number" placeholder="Number of students" />
+                            <Form.Label className={"p-2 text-black-50"}>Participants:</Form.Label>
+                            <Form.Control type="number" name={"participants"} placeholder="Number of students" min={1}/>
                         </FormGroup>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={props.onHide} variant={"outline-dark"}>Colse</Button>
-                    <Button onClick={props.onHide}>Add</Button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={props.onHide} variant={"outline-dark"}>Colse</Button>
+                        <Button type="submit">Add</Button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
         );
+    }
 
     if(props.user)
         return (
