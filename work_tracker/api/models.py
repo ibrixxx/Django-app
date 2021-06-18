@@ -28,11 +28,12 @@ class Classes(models.Model):
 
 
 
-class Homework(models.Model):
-    class_name = models.ForeignKey(User, related_name="myUser", on_delete=CASCADE)
+class Task(models.Model):
+    user = models.CharField(max_length=50)
     class_type = models.CharField(max_length=50)
-    start = models.DateTimeField(auto_now_add=True)
-    end = models.DateTimeField(blank=True)
+    start = models.DateField(auto_now_add=True)
+    end = models.DateField(blank=True)
+    accepted = models.CharField(max_length=50, default='waiting')
 
 
 class Records(models.Model):

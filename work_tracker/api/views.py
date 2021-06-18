@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from rest_framework import generics, status
 from .serializer import CreateNewUser, UserSerializer
-from .models import User, Classes, Homework, Records
+from .models import User, Classes, Task, Records
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.views import Response
@@ -79,10 +79,10 @@ def load_classes(request, username):
 
 
 @api_view(["GET"])
-def load_home(request, username):
+def load_tasks(request, username):
     user = User.objects.filter(username = username)
     if user.exists:
-        homework = Homework.objects.filter(class_name = user[0])
+        homework = Task.objects.filter(user = username)
     else:
         return Response(status=status.status.HTTP_404_NOT_FOUND)
     
@@ -110,3 +110,14 @@ def load_filtered_records(request):
         data = serializers.serialize('json', records)
         return HttpResponse(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(["POST"])
+def add_task(request):
+    username = request.data.get('username') 
+    date = request.data.get('date')
+    type = request.data.get('type')
+    newTask = Task(user = username, class_type = type, end = date)
+    newTask.save()
+    return Response(status = status.HTTP_202_ACCEPTED)

@@ -16,7 +16,7 @@ export default function HomeView() {
     let date = new Array(4);
 
 
-    axios.get('/api/load_home/'+username)
+    axios.get('/api/load_tasks/'+username)
     .then(function (response) {
         console.log('response: ', response);
         homework = response.data;
