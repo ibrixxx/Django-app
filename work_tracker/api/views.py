@@ -112,6 +112,27 @@ def load_filtered_records(request):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(["POST"])
+def load_filtered_classes(request):
+    username = request.data.get('username') 
+    semester = request.data.get('semester')
+    year = request.data.get('year')
+    user = User.objects.filter(username = username)
+    classes = None
+    if user.exists:
+        if user[0].type == "Professor":
+            classes = Classes.objects.filter(class_prof = user[0])
+        else:
+            classes = Classes.objects.filter(class_asist = user[0])
+    else:
+        return Response(status=status.status.HTTP_404_NOT_FOUND)
+    records = classes.filter(year = year).filter(semester = semester)
+    if records.exists:
+        data = serializers.serialize('json', records)
+        return HttpResponse(data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)    
+
+
 
 @api_view(["POST"])
 def add_task(request):

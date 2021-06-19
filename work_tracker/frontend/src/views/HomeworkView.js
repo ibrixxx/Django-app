@@ -18,7 +18,7 @@ export default function HomeworkView() {
             console.log('response: ', response);
             ReactDOM.render(
                 <div className={"main"}>
-                    <MyHeader name={"Homework"}/>
+                    <MyHeader name={"Homework"} username={username}/>
                     <h3 className={"text-info m-4 border-bottom font-monospace"}>My tasks</h3>
                     <MyHomework data={response.data}/>
                     <div className={"m-3"}>
