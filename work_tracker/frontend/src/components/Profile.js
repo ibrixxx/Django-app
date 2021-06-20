@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {Button, DropdownButton, Form} from "react-bootstrap";
+import axios from 'axios';
 
-const defaultImage = "https://bootdey.com/img/Content/avatar/avatar7.png"
+const defaultImage = "https://bootdey.com/img/Content/avatar/avatar7.png";
 
 export default function Profile({status, data, setUsername}) {
     const[edit, setEdit] = useState(false);
@@ -11,13 +12,27 @@ export default function Profile({status, data, setUsername}) {
     const [exs2, setExs2] = useState(true);
     const [exs3, setExs3] = useState(true);
     const [img, setImg] = useState(true);
-    const [myUrl, setMyUrl] = useState(defaultImage);
+    const [myUrl, setMyUrl] = useState("");
+
 
     function changeNames() {
         if(edit) {
             let name = document.getElementById("mojHE").innerText;
             let usrname = document.getElementById("usrname").innerText;
+            usrname = usrname.slice(1, usrname.length)
             setUsername(usrname);
+            axios.post('/api/change_username/', {
+                name: name,
+                new_username: usrname,
+                username: data.username
+              })
+              .then(function (response) {
+                console.log(response);
+                window.location = "/settings/" + usrname;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
         setEdit(!edit);
         setEdTxt((editTxt === "primary")? "info" : "primary");
@@ -36,17 +51,33 @@ export default function Profile({status, data, setUsername}) {
         setExs(true)
         setExs2(true)
         setExs3(true)
-        if(p1 !== p2)
+        if(p1 !== p2){
             setExs2(false)
-        else if(p1 === data.password.toString())
-            setExs3(false)
-        else if(p1.length < 6)
+            return;
+        }
+        else if(p1 === data.password.toString()){
+            setExs3(false);
+            return;
+        }
+        else if(p1.length < 6){
             setExs(false)
+            return;
+        }
         else{
             setExs(true)
             setExs2(true)
             setExs3(true)
             setPsw(true)
+            axios.post('/api/change_password/', {
+                password: p1,
+                username: data.username
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
     }
 
@@ -58,7 +89,17 @@ export default function Profile({status, data, setUsername}) {
             url = value;
         setImg(true);
         setMyUrl(url);
-           
+        console.log(url);
+        axios.post('/api/change_img/', {
+            img: url,
+            username: data.username
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
 
@@ -66,7 +107,7 @@ export default function Profile({status, data, setUsername}) {
         <div className="card">
             <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
-                    <img onClick={() => {setImg(!img)}} src={(data.img ==="")? myUrl:data.img} alt="Img" className="rounded-circle myPhoto"
+                    <img onClick={() => {setImg(!img)}} src={(myUrl ==="")? data.img:myUrl} alt="Img" className="rounded-circle myPhoto"
                          width="150" height="150"/>
                     <div hidden={img} className={'m-3'}>
                         <Form className={'d-flex'} onSubmit={changePhoto}>
@@ -78,7 +119,7 @@ export default function Profile({status, data, setUsername}) {
                     </div>
                     <div className="mt-3">
                         <h4 id={"mojHE"} contentEditable={edit} className={edit? "border-bottom text-info":""}>{data.name}</h4>
-                        <p id={"usrname"} contentEditable={edit} className={"text-secondary mb-1 " + (edit? "border-bottom text-info":"")}>{data.username}</p>
+                        <p id={"usrname"} contentEditable={edit} className={"text-secondary mb-1 " + (edit? "border-bottom text-info":"")}><small>@</small>{data.username}</p>
                         <p className="font-size-sm text-primary">{data.type}</p>
                         <p className={"text-secondary font-size-sm"}>Status: {status}</p>
                         <Button className={"m-3"} variant={editTxt} onClick={changeNames}>{(editTxt==="primary")? "Edit" : "Ok"}</Button>

@@ -142,3 +142,67 @@ def add_task(request):
     newTask = Task(user = username, class_type = type, end = date)
     newTask.save()
     return Response(status = status.HTTP_202_ACCEPTED)
+
+
+@api_view(["GET"])
+def load_user(request, username):
+    user = User.objects.filter(username = username)
+    if user.exists:
+        data = serializers.serialize('json', user)
+        return HttpResponse(data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+def change_img(request):
+    username = request.data.get('username') 
+    img = request.data.get('img')
+    queryset = User.objects.filter(username = username)
+    if queryset.exists:
+        user = queryset[0]
+        user.img = img
+        user.save(update_fields=['img'])
+        return Response(status = status.HTTP_202_ACCEPTED)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+def change_password(request):
+    username = request.data.get('username') 
+    password = request.data.get('password')
+    queryset = User.objects.filter(username = username)
+    if queryset.exists:
+        user = queryset[0]
+        user.password = password
+        user.save(update_fields=['password'])
+        return Response(status = status.HTTP_202_ACCEPTED)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+def change_username(request):
+    username = request.data.get('username') 
+    new_username = request.data.get('new_username')
+    name = request.data.get('name')
+    queryset = User.objects.filter(username = username)
+    if queryset.exists:
+        user = queryset[0]
+        user.username = new_username
+        user.name = name
+        user.save(update_fields=['name', 'username'])
+        return Response(status = status.HTTP_202_ACCEPTED)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(["POST"])
+def change_status(request):
+    username = request.data.get('username') 
+    state = request.data.get('status')
+    queryset = User.objects.filter(username = username)
+    if queryset.exists:
+        user = queryset[0]
+        user.status = state
+        user.save(update_fields=['status'])
+        return Response(status = status.HTTP_202_ACCEPTED)
+    return Response(status=status.HTTP_404_NOT_FOUND)

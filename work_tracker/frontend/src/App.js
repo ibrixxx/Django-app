@@ -26,7 +26,7 @@ function App() {
                 <Route path='/lectures/:username'><div className="App"><Sidenav admin={false}/> <div id={'root2'}><RecordView /></div></div></Route>
                 <Route path='/homework/:username'><div className="App"><Sidenav admin={false}/> <div id={'root3'}><HomeworkView /></div></div></Route>
                 <Route path='/classes/:username'><div className="App"><Sidenav admin={false}/> <div id={'root4'}><ClassesView admin={false}/></div></div></Route>
-                <Route path='/settings/:username'><div className="App"><Sidenav admin={false}/> <SettingsView /></div></Route>
+                <Route path='/settings/:username'><div className="App"><Sidenav admin={false}/> <div id={'root5'}><SettingsView /></div></div></Route>
             
                 <Route path='/a/users'><div className="App"><Sidenav admin={true}/> <UsersView /></div></Route>
                 <Route path='/a/home'><div className="App"><Sidenav admin={true}/> <HomeView /></div></Route>
