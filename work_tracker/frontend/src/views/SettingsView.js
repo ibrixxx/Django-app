@@ -4,14 +4,40 @@ import Profile from "../components/Profile";
 import axios from 'axios';
 import {useParams} from "react-router-dom";
 import * as ReactDOM from "react-dom";
+import styled from 'styled-components';
 
 
-export default function SettingsView() {
+export const LightTheme = {
+    pageBackground: "whitesmoke",
+    color: "#31343b"
+}
+
+export const DarkTheme = {
+    pageBackground: "#31343b",
+    color: "whitesmoke"
+}
+
+const themes = {
+    light: LightTheme,
+    dark: DarkTheme
+}
+
+
+const MyDiv = styled.div`
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    `
+
+
+export default function SettingsView(props) {
     let {username} = useParams();
 
     const[status, setStatus] = useState("Active");
     const[myUsername, setUsername] = useState(username);
     const[data, setData] = useState({});
+    const[currTheme, setTheme] = useState(themes.light);
 
 
     function changeState(str) {
@@ -30,10 +56,10 @@ export default function SettingsView() {
             setUsername(response.data[0].fields.username);
             setData(response.data[0].fields);
             ReactDOM.render(
-                <div className={"main"}>
-                    <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={response.data[0].fields.status}/>
-                    <Profile status={response.data[0].fields.status} data={response.data[0].fields} setUsername={changeUsername}/>
-                </div>
+                        <MyDiv>
+                            <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={response.data[0].fields.status}/>
+                            <Profile setTheme={setTheme} theme={currTheme} status={response.data[0].fields.status} data={response.data[0].fields} setUsername={changeUsername}/>
+                        </MyDiv>
                 , document.getElementById('root5')
             );
         })
@@ -44,18 +70,18 @@ export default function SettingsView() {
 
     useEffect(()=>{
         ReactDOM.render(
-            <div className={"main"}>
+            <MyDiv>
                 <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={status}/>
-                <Profile status={status} data={data} setUsername={changeUsername}/>
-            </div>
+                <Profile setTheme={setTheme} theme={currTheme} status={status} data={data} setUsername={changeUsername}/>
+            </MyDiv>
             , document.getElementById('root5')
         );
-    }, [status, myUsername]);
+    }, [status, myUsername, currTheme]);
 
     return(
-        <div className={"main"}>
+        <MyDiv >
             <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={status}/>
             <h2>Loading...</h2>
-        </div>
+        </MyDiv>
     );
 }

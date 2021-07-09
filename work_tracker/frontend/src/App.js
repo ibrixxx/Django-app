@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {render} from "react-dom";
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom'
 import Sidenav from "./components/Sidenav";
@@ -16,6 +16,7 @@ import Prop from "./components/Prop";
 
 
 function App() {
+
     return (
         <Router>
             <Switch>
@@ -30,7 +31,7 @@ function App() {
             
                 <Route path='/a/users'><div className="App"><Sidenav admin={true}/> <UsersView /></div></Route>
                 <Route path='/a/home'><div className="App"><Sidenav admin={true}/> <HomeView /></div></Route>
-                <Route path='/a/lectures'><div className="App"><Sidenav admin={true}/><RecordView /></div></Route>
+                <Route path='/a/lectures'><div className="App"><Sidenav admin={true}/> <RecordView /></div></Route>
                 <Route path='/a/homework'><div className="App"><Sidenav admin={true}/> <AdminHomework /></div></Route>
                 <Route path='/a/classes'><div className="App"><Sidenav admin={true}/> <ClassesView /></div></Route>
                 <Route path='/a/settings'><div className="App"><Sidenav admin={true}/> <SettingsView /></div></Route>

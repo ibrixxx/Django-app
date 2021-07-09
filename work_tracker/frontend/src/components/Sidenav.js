@@ -12,7 +12,7 @@ import {
     IoSettingsOutline
 } from "react-icons/all";
 
-function Sidenav({admin}){
+function Sidenav({admin, theme}){
 
     let {username} = useParams();
 

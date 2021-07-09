@@ -65,7 +65,7 @@ function MyHeader({name, statusCh, username, status}){
                             <NavDropdown.Item onClick={changeStatus2}>Status: Busy</NavDropdown.Item>
                             <NavDropdown.Item onClick={changeStatus3}>Status: Vacation</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4" className={"text-danger"}><BiPowerOff/> Log out</NavDropdown.Item>
+                            <NavDropdown.Item href="/login" className={"text-danger"}><BiPowerOff/> Log out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
