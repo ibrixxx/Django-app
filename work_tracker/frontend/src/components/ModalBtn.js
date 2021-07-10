@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from "react-bootstrap";
 import MyModal from "./MyModal";
 
-export default function ModalBtn({text, admin, user, username, renderRecords}) {
+export default function ModalBtn({text, admin, user, username, renderRecords, setUsers, users}) {
     const [modalShow, setModalShow] = React.useState(false);
 
     return (
@@ -17,6 +17,8 @@ export default function ModalBtn({text, admin, user, username, renderRecords}) {
                 show={modalShow}
                 username={username}
                 renderRecords={() => {renderRecords();}}
+                setUsers={setUsers}
+                users={users}
                 onHide={() => setModalShow(false)}
             />
         </div>

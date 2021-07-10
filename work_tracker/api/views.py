@@ -35,6 +35,7 @@ def add_new_user(request):
     return Response(status=status.HTTP_201_CREATED)
 
 
+
 @api_view(["POST"])
 def check_login(request):
     if not request.session.exists(request.session.session_key):
@@ -206,3 +207,10 @@ def change_status(request):
         user.save(update_fields=['status'])
         return Response(status = status.HTTP_202_ACCEPTED)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["GET"])
+def load_all_users(request):
+    users = User.objects.all()
+    data = serializers.serialize('json', users)
+    return HttpResponse(data, status=status.HTTP_200_OK)

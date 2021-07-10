@@ -34,6 +34,34 @@ export default function MyModal(props) {
         });
     }
 
+    function addNewUser(e) {
+        const formData = new FormData(e.target);
+        e.preventDefault();
+        const formDataObj = Object.fromEntries(formData.entries())
+        axios.post('http://127.0.0.1:8000/api/register/new_user', {
+                username: formDataObj.username,
+                name: formDataObj.name,
+                email: formDataObj.email,
+                password: 'test123',
+                type: formDataObj.type,
+        })
+        .then(function (response) {
+            console.log('response: ', response);
+            let pom = props.users;
+            pom.push({
+                username: formDataObj.username,
+                name: formDataObj.name,
+                email: formDataObj.email,
+                password: 'test123',
+                type: formDataObj.type,
+            })
+            props.setUsers(pom);
+        })
+        .catch(function (error) {
+            console.log('error: ',error);
+        });
+    }
+
     if(props.admin){
 
         return (
@@ -109,35 +137,35 @@ export default function MyModal(props) {
                         Add a user
                     </Modal.Title>
                 </Modal.Header>
+                <Form onSubmit={addNewUser} className={"d-grid"}>
                 <Modal.Body>
-                    <Form className={"d-grid"}>
-                        <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Name:</Form.Label>
-                            <Form.Control type="text" placeholder="Full name" />
-                        </FormGroup>
-                        <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Title:</Form.Label>
-                            <Form.Control as="select" className="form-select" custom>
-                                <option>Professor</option>
-                                <option>Assistent</option>
-                                <option>Boss</option>
-                                <option>Big Boss</option>
-                            </Form.Control>
-                        </FormGroup>
-                        <FormGroup className={"d-inline-flex m-1"}>
-                            <Form.Label className={"p-2 w-25 text-black-50"}>Status:</Form.Label>
-                            <Form.Control as="select" className="form-select" custom>
-                                <option>Active</option>
-                                <option>Vacation</option>
-                                <option>Android</option>
-                            </Form.Control>
-                        </FormGroup>
-                    </Form>
+                    <FormGroup className={"m-1"}>
+                        <Form.Label className={"p-2 w-25 text-black-50"}>Name:</Form.Label>
+                        <Form.Control name={'name'} type="text" placeholder="Full name" />
+                    </FormGroup>
+                    <FormGroup className={"m-1"}>
+                        <Form.Label className={"p-2 w-25 text-black-50"}>Username:</Form.Label>
+                        <Form.Control name={'username'} type="text" placeholder="Username" />
+                    </FormGroup>
+                    <FormGroup className={"m-1"}>
+                        <Form.Label className={"p-2 w-25 text-black-50"}>Email:</Form.Label>
+                        <Form.Control name={'email'} type="email" placeholder="Email" />
+                    </FormGroup>
+                    <FormGroup className={"m-1"}>
+                        <Form.Label className={"p-2 w-25 text-black-50"}>Title:</Form.Label>
+                        <Form.Control name={'type'} as="select" className="form-select" custom>
+                            <option>Professor</option>
+                            <option>Assistent</option>
+                            <option>Dekan</option>
+                            <option>Šef odsjeka</option>
+                        </Form.Control>
+                    </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide} variant={"outline-dark"}>Colse</Button>
-                    <Button onClick={props.onHide}>Add</Button>
+                    <Button type={'submit'} onClick={props.onHide}>Add</Button>
                 </Modal.Footer>
+                </Form>
             </Modal>
         );
 

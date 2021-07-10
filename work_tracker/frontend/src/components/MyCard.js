@@ -23,15 +23,15 @@ const CardContainer = styled.div`
     padding: 2px 16px;
   `
 
-export default function MyCard({user, stats, data}){
+export default function MyCard({user, stats, data, name, type}){
 
     if(user)
         return (
             <Card className={"card text-light "+stats}>
                 <CardContainer className={"container"}>
-                    <h6>Username</h6>
-                    <h6 className={"text-info"}>šta je</h6>
-                    <h6 className={"text-black-50"}>Status: xyu</h6>
+                    <h6 className={'p-3'}>{name}</h6>
+                    <h6 className={"text-primary"}>{type}</h6>
+                    <h6 className={"text-black-50"}>Status: {(stats==='bg-success')? 'Active':(stats==='bg-danger')? 'Busy':'Vacation'}</h6>
                 </CardContainer>
             </Card>
         );

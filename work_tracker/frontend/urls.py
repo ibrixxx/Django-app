@@ -11,10 +11,10 @@ urlpatterns = [
     path('lost_password', index, name="lost_password"),
     path('login', index, name="login"),
     path('register', index, name="register"),
-    path('a/home', index, name="admin_home"),
-    path('a/lectures', index, name="admin_lectures"),
-    path('a/homework', index, name="admin_homework"),
-    path('a/classes', index, name="admin_classes"),
-    path('a/settings', index, name="admin_settings"),
-    path('a/users', index, name="admin_users")
+    path('a/home/<str:username>', index, name="admin_home"),
+    path('a/lectures/<str:username>', index, name="admin_lectures"),
+    path('a/homework/<str:username>', index, name="admin_homework"),
+    path('a/classes/<str:username>', index, name="admin_classes"),
+    path('a/settings/<str:username>', index, name="admin_settings"),
+    path('a/users/<str:username>', index, name="admin_users")
 ]
