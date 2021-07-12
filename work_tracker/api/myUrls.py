@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_new_user, ProfileView, check_login, load_classes, load_tasks, load_records, add_record, load_filtered_records, add_task, load_filtered_classes,load_user, change_img, change_password, change_username, change_status, load_all_users
+from .views import add_new_user, ProfileView, check_login, load_classes, load_tasks, load_records, add_record, load_filtered_records, add_task, load_filtered_classes,load_user, change_img, change_password, change_username, change_status, load_all_users, load_filtered_users, load_filtered_users_by_semester
 
 urlpatterns = [
     path('', ProfileView.as_view()),
@@ -13,6 +13,8 @@ urlpatterns = [
     path('change_status/', change_status, name="change_status"),
     path('load_filtered_records/', load_filtered_records, name="load_filtered_records"),
     path('load_filtered_classes/', load_filtered_classes, name="load_filtered_classes"),
+    path('load_filtered_users/', load_filtered_users, name="load_filtered_users"),
+    path('load_filtered_users_by_semester/', load_filtered_users_by_semester, name="load_filtered_users_by_semester"),
     path('load_tasks/<str:username>', load_tasks, name="load_tasks"),
     path('load_classes/<str:username>', load_classes, name="load_cl"),
     path('load_records/<str:username>', load_records, name="load_records"),

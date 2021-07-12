@@ -23,15 +23,23 @@ const CardContainer = styled.div`
     padding: 2px 16px;
   `
 
-export default function MyCard({user, stats, data, name, type}){
+export default function MyCard({user, stats, data}){
 
     if(user)
         return (
             <Card className={"card text-light "+stats}>
-                <CardContainer className={"container"}>
-                    <h6 className={'p-3'}>{name}</h6>
-                    <h6 className={"text-primary"}>{type}</h6>
-                    <h6 className={"text-black-50"}>Status: {(stats==='bg-success')? 'Active':(stats==='bg-danger')? 'Busy':'Vacation'}</h6>
+                <CardContainer className={"container d-inline-flex"}>
+                    <div className={'center mx-5'}>
+                        <img src={data.img} alt="Img" className="rounded-circle myPhoto"
+                            width="80" height="80"/>
+                    </div>
+                    <div className={'m-5'}>
+                        <h6 className={'p-3'}>{data.name}</h6>
+                    </div>
+                    <div className={'m-5'}>
+                        <h6 className={"text-primary"}>{data.type}</h6>
+                        <h6 className={"text-black-50"}>Status: {(stats==='bg-success')? 'Active':(stats==='bg-danger')? 'Busy':'Vacation'}</h6>
+                    </div>
                 </CardContainer>
             </Card>
         );

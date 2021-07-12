@@ -155,7 +155,7 @@ export default function MyModal(props) {
                         <Form.Label className={"p-2 w-25 text-black-50"}>Title:</Form.Label>
                         <Form.Control name={'type'} as="select" className="form-select" custom>
                             <option>Professor</option>
-                            <option>Assistent</option>
+                            <option>Assistant</option>
                             <option>Dekan</option>
                             <option>Šef odsjeka</option>
                         </Form.Control>

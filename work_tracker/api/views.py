@@ -131,7 +131,52 @@ def load_filtered_classes(request):
     if records.exists:
         data = serializers.serialize('json', records)
         return HttpResponse(data, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_404_NOT_FOUND)    
+    return Response(status=status.HTTP_404_NOT_FOUND)  
+
+
+
+@api_view(["POST"])
+def load_filtered_users(request):
+    class_name = request.data.get('class_name')
+    mystatus = request.data.get('status')
+    if class_name != "All":
+        classes = Classes.objects.filter(class_name = class_name)
+        users = []
+        for user in classes.all():
+            if user.class_prof.status == mystatus:
+                users.append(user.class_prof)
+            if user.class_asist.status == mystatus:
+                users.append(user.class_asist)
+    else:
+        users = User.objects.filter(status = mystatus)
+    data = serializers.serialize('json', users)
+    return HttpResponse(data, status=status.HTTP_200_OK) 
+
+
+
+
+@api_view(["POST"])
+def load_filtered_users_by_semester(request):
+    semester = request.data.get('semester')
+    if semester % 2 == 0:
+        sem = 'Summer'
+    else:
+        sem = 'Winter'
+    year = 1
+    counter = 0
+    while semester > 0:
+        semester -= 1
+        if counter % 2 == 0:
+            year += 1
+        counter += 1
+    classes = Classes.objects.filter(year = year).filter(semester = sem)
+    users = []
+    for user in classes.all():
+        users.append(user.class_prof)
+        users.append(user.class_asist)
+    data = serializers.serialize('json', users)
+    return HttpResponse(data, status=status.HTTP_200_OK)
+
 
 
 
