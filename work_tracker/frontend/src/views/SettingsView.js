@@ -60,7 +60,7 @@ export default function SettingsView(props) {
                             <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={response.data[0].fields.status}/>
                             <Profile setTheme={setTheme} theme={currTheme} status={response.data[0].fields.status} data={response.data[0].fields} setUsername={changeUsername}/>
                         </MyDiv>
-                , document.getElementById('root5')
+                , (props.admin)? document.getElementById('root55'):document.getElementById('root5')
             );
         })
         .catch(function (error) {
@@ -74,7 +74,7 @@ export default function SettingsView(props) {
                 <MyHeader name={"Settings"} statusCh={changeState} username={myUsername} status={status}/>
                 <Profile setTheme={setTheme} theme={currTheme} status={status} data={data} setUsername={changeUsername}/>
             </MyDiv>
-            , document.getElementById('root5')
+            , (props.admin)? document.getElementById('root55'):document.getElementById('root5')
         );
     }, [status, myUsername, currTheme]);
 

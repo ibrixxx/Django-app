@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_new_user, ProfileView, check_login, load_classes, load_tasks, load_records, add_record, load_filtered_records, add_task, load_filtered_classes,load_user, change_img, change_password, change_username, change_status, load_all_users, load_filtered_users, load_filtered_users_by_semester
+from .views import add_new_user, ProfileView, check_login, load_classes, load_tasks, load_records, add_record, load_filtered_records, add_task, load_filtered_classes,load_user, change_img, change_password, change_username, change_status, load_all_users, load_filtered_users, load_filtered_users_by_semester, load_all_classes, get_records_for
 
 urlpatterns = [
     path('', ProfileView.as_view()),
@@ -17,7 +17,9 @@ urlpatterns = [
     path('load_filtered_users_by_semester/', load_filtered_users_by_semester, name="load_filtered_users_by_semester"),
     path('load_tasks/<str:username>', load_tasks, name="load_tasks"),
     path('load_classes/<str:username>', load_classes, name="load_cl"),
+    path('load_all_classes', load_all_classes, name="load_all_classes"),
     path('load_records/<str:username>', load_records, name="load_records"),
     path('load_user/<str:username>', load_user, name="load_user"),
     path('load_all_users', load_all_users, name="load_all_users"),
+    path('get_records_for/<str:class_name>', get_records_for, name="get_records_for"),
 ]

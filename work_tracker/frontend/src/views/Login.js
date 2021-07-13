@@ -25,7 +25,7 @@ function Login(){
           .then(function (response) {
             console.log('response: ', response);
             if(response.data  == true)
-                window.location = "/a/home";
+                window.location = "/a/home/" + username;
             else
                 window.location = "/home/" + username;
           })

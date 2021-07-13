@@ -79,6 +79,14 @@ def load_classes(request, username):
     return HttpResponse(data,status=status.HTTP_202_ACCEPTED)
 
 
+
+@api_view(["GET"])
+def load_all_classes(request):
+    classes = Classes.objects.all()  
+    data = serializers.serialize('json', classes)
+    return HttpResponse(data,status=status.HTTP_202_ACCEPTED)
+
+
 @api_view(["GET"])
 def load_tasks(request, username):
     user = User.objects.filter(username = username)
@@ -99,6 +107,9 @@ def load_records(request, username):
         data = serializers.serialize('json', records)
         return HttpResponse(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
 
 @api_view(["POST"])
 def load_filtered_records(request):
@@ -258,4 +269,10 @@ def change_status(request):
 def load_all_users(request):
     users = User.objects.all()
     data = serializers.serialize('json', users)
+    return HttpResponse(data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def get_records_for(request, class_name):
+    records = Records.objects.filter(class_name = class_name)
+    data = serializers.serialize('json', records)
     return HttpResponse(data, status=status.HTTP_200_OK)

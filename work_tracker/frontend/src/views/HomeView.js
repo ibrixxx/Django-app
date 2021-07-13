@@ -1,39 +1,38 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import MyHeader from "../components/Header";
 import MainCard from "../components/MainCard";
 import axios from 'axios';
 import * as ReactDOM from "react-dom";
 
-export default function HomeView() {
-
+export default function HomeView({admin}) {
     let {username} = useParams();
-    let homework = []
-    let classes = []
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    let pom = [];
-    let myMap = new Map();
-    let date = new Array(4);
 
 
-    axios.get('/api/load_tasks/'+username)
-    .then(function (response) {
-        console.log('response: ', response);
-        homework = response.data;
-        axios.get('/api/load_classes/'+username)
-        .then(function (response) {
-            console.log('response: ', response);
-            classes = response.data;
-            console.log(homework, classes);
-            setNextDays();
-        })
-        .catch(function (error) {
-            console.log('error: ',error);
-        })
-    })
-    .catch(function (error) {
-        console.log('error: ',error);
-    })
+    if(admin){
+        useEffect(() => {
+            axios.get('/api/load_all_classes')
+            .then(function (response) {
+                console.log('response1: ', response);
+                setNextDays(response.data);
+            })
+            .catch(function (error) {
+                console.log('error: ',error);
+            })
+        }, [])
+    }
+    else{
+        useEffect(() => {
+            axios.get('/api/load_classes/'+username)
+            .then(function (response) {
+                console.log('response2: ', response);
+                setNextDays(response.data);
+            })
+            .catch(function (error) {
+                console.log('error: ',error);
+            })
+        }, [])
+    }
 
     
     function getDatey() {
@@ -48,7 +47,11 @@ export default function HomeView() {
         return [month, datey, year].join('/');
     }
 
-    function setNextDays() {
+    function setNextDays(classes) {
+        let pom = [];
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let myMap = new Map();
+        let date = new Array(4);
         let d = new Date();
         let i = d.getDay();
         for(let k=0; k<days.length; k++){
@@ -66,20 +69,24 @@ export default function HomeView() {
             myDate = incDate(myDate);
             i++;
         }
-        console.log("sas; ",myMap.get(days[4]));
+        //console.log("sas; ",myMap.get(days[4]));
         ReactDOM.render(
         <div className={"main"}>
             <MyHeader name={"Home"} username={username}/>
             <h3 className={"text-info m-4 border-bottom font-monospace"}>Next seven days</h3>
             <ul className={"scrollmenu m-4"}>
                 {
-                    pom.map((x) => {
-                        return <li className={"cards"}> <MainCard myDate={date[x]} title={days[x]} data={myMap.get(days[x])}/> </li>
+                    pom.map((x, i) => {
+                        return <li className={"cards"}>
+                            <div id={'li'+i}>
+                            <MainCard key={i} id={i} clickable={true} myDate={date[x]} title={days[x]} data={myMap.get(days[x])}/> 
+                            </div>
+                            </li>
                     })
                 }
             </ul>
         </div>
-        , document.getElementById("root"))
+        ,(admin)?  document.getElementById("root1"):document.getElementById("root"))
     }
     
 

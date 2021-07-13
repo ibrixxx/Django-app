@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
+import {FcInfo} from 'react-icons/all';
+import {Button} from "react-bootstrap";
 
 const Card = styled.div`
       border: 0;
@@ -23,7 +25,7 @@ const CardContainer = styled.div`
     padding: 2px 16px;
   `
 
-export default function MyCard({user, stats, data}){
+export default function MyCard({user, stats, data, clickable, setModal}){
 
     if(user)
         return (
@@ -37,7 +39,7 @@ export default function MyCard({user, stats, data}){
                         <h6 className={'p-3'}>{data.name}</h6>
                     </div>
                     <div className={'m-5'}>
-                        <h6 className={"text-primary"}>{data.type}</h6>
+                        <h6 className={"text-dark"}>{data.type}</h6>
                         <h6 className={"text-black-50"}>Status: {(stats==='bg-success')? 'Active':(stats==='bg-danger')? 'Busy':'Vacation'}</h6>
                     </div>
                 </CardContainer>
@@ -50,6 +52,11 @@ export default function MyCard({user, stats, data}){
                 <h6>{data.class_name}</h6>
                 <h6 className={"text-info"}>Durration: {data.class_durr_in_hours} h</h6>
                 <h6 className={"text-black-50"}>Start: 1{data.year}:15 h</h6>
+                {(clickable)? 
+                    <Button onClick={() => {setModal(true); console.log("sasa");}} variant={'outline-dark'}>
+                        <FcInfo/>
+                    </Button>:<></> 
+                }
             </CardContainer>
         </Card>
     );

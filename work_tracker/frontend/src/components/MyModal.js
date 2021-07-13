@@ -1,6 +1,7 @@
 import React from "react";
-import {Button, Form, FormGroup, Modal} from "react-bootstrap";;
+import {Button, Form, FormGroup, Modal, Table} from "react-bootstrap";;
 import axios from 'axios';
+import * as ReactDOM from "react-dom";
 
 export default function MyModal(props) {
 
@@ -60,7 +61,9 @@ export default function MyModal(props) {
         .catch(function (error) {
             console.log('error: ',error);
         });
-    }
+    }  
+
+
 
     if(props.admin){
 
@@ -156,8 +159,6 @@ export default function MyModal(props) {
                         <Form.Control name={'type'} as="select" className="form-select" custom>
                             <option>Professor</option>
                             <option>Assistant</option>
-                            <option>Dekan</option>
-                            <option>Šef odsjeka</option>
                         </Form.Control>
                     </FormGroup>
                 </Modal.Body>
@@ -168,6 +169,85 @@ export default function MyModal(props) {
                 </Form>
             </Modal>
         );
+
+    if(props.class_view) {
+        axios.get('/api/get_records_for/'+props.name)
+            .then(function (response) {
+                console.log('response2: ', response);
+                ReactDOM.render (
+                    <Modal
+                        {...props}
+                        size="lg"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                        id={'mod'+props.id}
+                    >
+                        <Modal.Header>
+                            <Modal.Title id="contained-modal-title-vcenter">
+                                {props.name}
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {
+                                (response.data.length > 0)?
+                                <Table striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>Week</th>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>Participants</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                {    
+                                    response.data.map((record) => {
+                                        return  <tr>
+                                                    <td>{record.fields.week_held}</td>
+                                                    <td>{record.fields.held_date}</td>
+                                                    <td>{record.fields.class_type}</td>
+                                                    <td>{record.fields.participants}</td>
+                                                </tr>
+                                    })
+                                }
+                                    </tbody>
+                                </Table>:
+                                <h3>No records added yet</h3>
+                            }
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={props.onHide} variant={"outline-dark"}>Colse</Button>
+                        </Modal.Footer>
+                    </Modal>
+                    , document.getElementById('mod'+props.id)
+                );
+            })
+            .catch(function (error) {
+                console.log('error: ',error);
+            })
+            return (
+                <Modal
+                    {...props}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    id={'mod'+props.id}
+                >
+                    <Modal.Header>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            {props.name}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Loading...
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={props.onHide} variant={"outline-dark"}>Colse</Button>
+                    </Modal.Footer>
+                </Modal>
+            );
+    }
 
     return (
         <Modal
